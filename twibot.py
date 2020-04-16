@@ -1,12 +1,8 @@
 import tweepy
 import time
+from keys import *
 
 FILE_NAME="last_seen_id.txt"
-
-CONSUMER_KEY = "fQYLc7fQMBewZC6Z4tc56VTaJ"
-CONSUMER_SECRET = "4cqzZ5gMgfnbb10iBSWuNT0QlpVyCmat3Zuz3RR8YpdT6qvs3W"
-ACCESS_KEY = "1244637342293544961-XcmPATJWFvYZaNlBPKr157elAiD1Pk"
-ACCESS_SECRET = "fOQUmWcD0iHswTyrD4wXDATvW16rXBOTkqq0mDnqGIqIo"
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
@@ -25,12 +21,12 @@ def store_last_seen_id(last_seen_id, file_name):
     return
 
 def reply_to_tweets():
-    print("retrieving and replying to tweets")
+    print("retrieving and replying to tweets", flush = True)
     last_seen_id = retrieve_last_seen_id(FILE_NAME)
     mentions = api.mentions_timeline(last_seen_id, tweet_mode = "extended") 
 
     for mention in reversed(mentions):
-        print(str(mention.id) + " - " + mention.full_text)
+        print(str(mention.id) + " - " + mention.full_text, flush = True)
         last_seen_id = mention.id
         store_last_seen_id(last_seen_id, FILE_NAME)
         if "#testing" in mention.full_text.lower():
