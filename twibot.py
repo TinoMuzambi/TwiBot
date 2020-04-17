@@ -2,11 +2,12 @@ import tweepy
 import time
 from keys import *
 
-FILE_NAME="last_seen_id.txt"
+FILE_NAME = "last_seen_id.txt"
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
 api = tweepy.API(auth)
+
 
 def retrieve_last_seen_id(file_name):
     f_read = open(file_name, "r")
@@ -14,11 +15,13 @@ def retrieve_last_seen_id(file_name):
     f_read.close()
     return last_seen_id
 
+
 def store_last_seen_id(last_seen_id, file_name):
     f_write = open(file_name, "w")
     f_write.write(str(last_seen_id))
     f_write.close()
     return
+
 
 def reply_to_tweets():
     print("retrieving and replying to tweets", flush = True)
@@ -32,6 +35,7 @@ def reply_to_tweets():
         if "#testing" in mention.full_text.lower():
             print("Found #testing responding back")
             api.update_status("@" + mention.user.screen_name + "#Testing back to you", mention.id)
+
 
 while True:
     reply_to_tweets()
